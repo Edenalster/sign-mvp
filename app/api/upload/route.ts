@@ -1,27 +1,26 @@
-import { writeFile } from "fs/promises";
-import { join } from "path";
+import { put } from "@vercel/blob";
 
 export async function POST(req: Request) {
-  const formData = await req.formData();
+  try {
+    const formData = await req.formData();
 
-  const file = formData.get("file") as File;
+    const file = formData.get("file") as File | null;
 
-  if (!file) {
-    return Response.json({ error: "No file" }, { status: 400 });
+    if (!file) {
+      return Response.json({ error: "No file uploaded" }, { status: 400 });
+    }
+
+    const blob = await put(`${Date.now()}-${file.name}`, file, {
+      access: "public",
+    });
+
+    return Response.json({
+      filename: file.name,
+      url: blob.url,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return Response.json({ error: "Upload failed" }, { status: 500 });
   }
-
-  const bytes = await file.arrayBuffer();
-
-  const buffer = Buffer.from(bytes);
-
-  const filename = `${Date.now()}-${file.name}`;
-
-  const path = join(process.cwd(), "public", "uploads", filename);
-
-  await writeFile(path, buffer);
-
-  return Response.json({
-    filename,
-    url: `/uploads/${filename}`,
-  });
 }
