@@ -2,7 +2,7 @@ import { put } from "@vercel/blob";
 
 export async function POST(req: Request) {
   try {
-    console.log("TOKEN EXISTS:", !!process.env.BLOB_READ_WRITE_TOKEN);
+    console.log("TOKEN EXISTS:", !!process.env.BLOB_WEBHOOK_PUBLIC_KEY);
 
     const formData = await req.formData();
 
