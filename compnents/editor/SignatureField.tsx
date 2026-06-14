@@ -39,7 +39,7 @@ export default function SignatureField({
 
         onMove(id, newXPercent, newYPercent);
       }}
-      className={`absolute z-50 flex h-[45px] w-[120px] md:h-[60px] md:w-[180px] items-center justify-center transition-all duration-200 ${
+      className={`absolute z-50 flex h-[45px] w-[100px] md:h-[60px] md:w-[180px] items-center justify-center transition-all duration-200 ${
         signedImage
           ? ""
           : "cursor-grab border-2 border-blue-500 bg-blue-100 text-xs font-semibold text-blue-700 shadow-md hover:scale-[1.02] hover:shadow-xl active:cursor-grabbing"
