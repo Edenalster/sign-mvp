@@ -36,6 +36,10 @@ export default function SignClient({ documentId }: Props) {
     string | null
   >(null);
   const [documentCompleted, setDocumentCompleted] = useState(false);
+  const [signerName, setSignerName] = useState("");
+  const [signerEmail, setSignerEmail] = useState("");
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [numPages, setNumPages] = useState(0);
   const [pdfSize, setPdfSize] = useState({ width: 800, height: 1131 });
@@ -139,6 +143,34 @@ export default function SignClient({ documentId }: Props) {
 
   const signedCount = fields.filter((field) => field.signedImage).length;
 
+  const sendSignedDocument = async () => {
+    try {
+      setSendingEmail(true);
+
+      const response = await fetch("/api/send-signed-document", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          documentId,
+          name: signerName,
+          email: signerEmail,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setEmailSent(true);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSendingEmail(false);
+    }
+  };
+
   if (!isReady) {
     return (
       <div className="flex h-screen items-center justify-center text-white">
@@ -149,20 +181,47 @@ export default function SignClient({ documentId }: Props) {
 
   if (documentCompleted) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-slate-950 text-white">
-        <div className="rounded-3xl border border-green-500/20 bg-green-500/10 p-10 text-center">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-slate-950 px-4 text-white">
+        <div className="w-full max-w-md rounded-3xl border border-green-500/20 bg-green-500/10 p-8 text-center">
           <div className="text-6xl">✅</div>
 
           <h1 className="mt-6 text-3xl font-bold">Document Signed</h1>
 
-          <p className="mt-3 text-slate-400">Thank you for signing.</p>
+          <p className="mt-3 text-slate-400">
+            Please provide your details and send the signed document.
+          </p>
 
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-6 rounded-xl bg-blue-600 px-6 py-3"
-          >
-            View Document
-          </button>
+          {emailSent ? (
+            <div className="mt-6 rounded-xl bg-green-600 p-4 text-white">
+              Signed document sent successfully.
+            </div>
+          ) : (
+            <>
+              <input
+                type="text"
+                placeholder="Your Name"
+                value={signerName}
+                onChange={(e) => setSignerName(e.target.value)}
+                className="mt-6 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white"
+              />
+
+              <input
+                type="email"
+                placeholder="Your Email"
+                value={signerEmail}
+                onChange={(e) => setSignerEmail(e.target.value)}
+                className="mt-3 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white"
+              />
+
+              <button
+                disabled={!signerName || !signerEmail || sendingEmail}
+                onClick={sendSignedDocument}
+                className="mt-6 w-full rounded-xl bg-blue-600 px-6 py-3 disabled:opacity-50"
+              >
+                {sendingEmail ? "Sending..." : "Send Signed Document"}
+              </button>
+            </>
+          )}
         </div>
       </div>
     );
