@@ -20,6 +20,8 @@ export default function PdfViewer({
     pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
   }, []);
 
+  const isMobile = window.innerWidth <= 768;
+
   return (
     <Document
       file={fileUrl}
@@ -27,7 +29,7 @@ export default function PdfViewer({
     >
       <Page
         pageNumber={currentPage}
-        width={800}
+        width={isMobile ? window.innerWidth - 40 : 800}
         onRenderSuccess={() => {
           onPageRendered?.();
         }}

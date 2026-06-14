@@ -26,21 +26,24 @@ export default function SignatureModal({ open, onClose, onSave }: Props) {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
-      <div className="w-[700px] rounded-2xl bg-white p-6">
+      <div className="w-[95vw] max-w-[700px] max-h-[90vh] overflow-auto rounded-2xl bg-white p-4 md:p-6">
         <h2 className="text-xl font-semibold">Draw Signature</h2>
 
         <div className="mt-4 overflow-hidden rounded-xl border">
           <SignatureCanvas
             ref={sigRef}
             canvasProps={{
-              width: 650,
+              width:
+                typeof window !== "undefined"
+                  ? Math.min(window.innerWidth - 60, 650)
+                  : 650,
               height: 250,
-              className: "bg-white",
+              className: "bg-white w-full",
             }}
           />
         </div>
 
-        <div className="mt-6 flex justify-end gap-3">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
           <button
             onClick={() => sigRef.current?.clear()}
             className="rounded-lg border px-4 py-2 bg-gray-950"
@@ -50,7 +53,7 @@ export default function SignatureModal({ open, onClose, onSave }: Props) {
 
           <button
             onClick={onClose}
-            className="rounded-lg border px-4 py-2 bg-gray-600"
+            className="rounded-lg border px-4 py-2 bg-red-600 text-white"
           >
             Cancel
           </button>
