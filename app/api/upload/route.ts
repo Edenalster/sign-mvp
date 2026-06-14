@@ -1,18 +1,9 @@
-import { put } from "@vercel/blob";
-
-export async function POST(req: Request) {
-  try {
-    return Response.json({
-      BLOB_READ_WRITE_TOKEN: !!process.env.BLOB_READ_WRITE_TOKEN,
-      BLOB_STORE_ID: !!process.env.BLOB_STORE_ID,
-      BLOB_WEBHOOK_PUBLIC_KEY: !!process.env.BLOB_WEBHOOK_PUBLIC_KEY,
-    });
-  } catch (error) {
-    return Response.json(
-      {
-        error: String(error),
-      },
-      { status: 500 }
-    );
-  }
+export async function POST() {
+  return Response.json({
+    NODE_ENV: process.env.NODE_ENV,
+    HAS_TOKEN: !!process.env.BLOB_READ_WRITE_TOKEN,
+    HAS_STORE_ID: !!process.env.BLOB_STORE_ID,
+    HAS_WEBHOOK: !!process.env.BLOB_WEBHOOK_PUBLIC_KEY,
+    BLOB_KEYS: Object.keys(process.env).filter((key) => key.includes("BLOB")),
+  });
 }
