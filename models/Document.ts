@@ -4,7 +4,7 @@ const DocumentSchema = new Schema(
   {
     envelopeId: {
       type: String,
-      required: true,
+      required: false,
     },
 
     title: {
