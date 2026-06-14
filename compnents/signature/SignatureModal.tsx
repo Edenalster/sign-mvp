@@ -46,7 +46,7 @@ export default function SignatureModal({ open, onClose, onSave }: Props) {
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
           <button
             onClick={() => sigRef.current?.clear()}
-            className="rounded-lg border px-4 py-2 bg-gray-950"
+            className="rounded-lg border px-4 py-2 bg-gray-400 text-black "
           >
             Clear
           </button>
