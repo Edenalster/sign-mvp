@@ -21,6 +21,13 @@ export default function UploadPage() {
     });
 
     const result = await response.json();
+    console.log("UPLOAD RESULT", result);
+
+    if (!response.ok || !result.url) {
+      console.error("Upload failed", result);
+      alert("Upload failed");
+      return;
+    }
 
     const documentResponse = await fetch("/api/documents", {
       method: "POST",
@@ -33,7 +40,17 @@ export default function UploadPage() {
       }),
     });
 
+    console.log("DOCUMENT RESPONSE STATUS", documentResponse.status);
+
     const document = await documentResponse.json();
+
+    console.log("DOCUMENT RESULT", document);
+
+    if (!document._id) {
+      console.error("Document creation failed", document);
+      alert("Document creation failed");
+      return;
+    }
 
     router.push(`/editor/${document._id}`);
   };
