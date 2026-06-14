@@ -5,9 +5,6 @@ import { SignatureField } from "@/models/SignatureField";
 
 import { PDFDocument } from "pdf-lib";
 
-import fs from "fs/promises";
-import path from "path";
-
 type Props = {
   params: Promise<{
     id: string;
@@ -41,11 +38,15 @@ export async function GET(request: Request, { params }: Props) {
       },
     });
 
-    const pdfPath = path.join(process.cwd(), "public", document.pdfUrl);
+    const pdfResponse = await fetch(document.pdfUrl);
 
-    const pdfBytes = await fs.readFile(pdfPath);
+    if (!pdfResponse.ok) {
+      throw new Error(`Failed to fetch PDF: ${pdfResponse.status}`);
+    }
 
-    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pdfBytes = await pdfResponse.arrayBuffer();
+
+    const pdfDoc = await PDFDocument.load(new Uint8Array(pdfBytes));
 
     for (const field of fields) {
       const page = pdfDoc.getPage(field.page - 1);
