@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
     await resend.emails.send({
       from: "onboarding@resend.dev",
-      to: "ezlaw.adv@gmail.com",
+      to: "office@ezlawyer.co.il",
       subject: "מסמך חתום",
       html: `
         <h2>מסמך נחתם</h2>
