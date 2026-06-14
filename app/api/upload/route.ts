@@ -19,8 +19,13 @@ export async function POST(req: Request) {
       url: blob.url,
     });
   } catch (error) {
-    console.error(error);
+    console.error("UPLOAD ERROR:", error);
 
-    return Response.json({ error: "Upload failed" }, { status: 500 });
+    return Response.json(
+      {
+        error: String(error),
+      },
+      { status: 500 }
+    );
   }
 }
