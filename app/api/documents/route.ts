@@ -14,6 +14,8 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
+    console.log("BODY:", body);
+
     const document = await Document.create({
       title: body.title,
       pdfUrl: body.pdfUrl,
@@ -22,12 +24,12 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(document);
   } catch (error) {
-    console.error(error);
+    console.error("DOCUMENT ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Failed to create document",
+        error: String(error),
       },
       {
         status: 500,
