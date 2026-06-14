@@ -231,12 +231,14 @@ export default function EditorClient({ documentId }: Props) {
     setIsModalOpen(false);
   };
 
-  const signingLink = hydrated
-    ? `${window.location.origin}/sign/${documentId}`
-    : "";
+  const appUrl =
+    process.env.NEXT_PUBLIC_APP_URL || "https://sign-mvp.vercel.app";
+
+  const signingLink = hydrated ? `${appUrl}/sign/${documentId}` : "";
 
   const copySigningLink = async () => {
     try {
+      console.log("COPYING LINK:", signingLink);
       await navigator.clipboard.writeText(signingLink);
 
       alert("Signing link copied");
@@ -262,7 +264,7 @@ export default function EditorClient({ documentId }: Props) {
 
   return (
     <>
-      <div className="mt-10 flex gap-6">
+      <div className="mt-10 flex flex-col lg:flex-row gap-6">
         <div
           className={`relative flex-1 overflow-auto rounded-2xl bg-white p-4 ${
             placingSignature ? "cursor-crosshair" : ""
@@ -336,7 +338,7 @@ export default function EditorClient({ documentId }: Props) {
           )}
         </div>
 
-        <div className="w-80 rounded-2xl border border-white/10 bg-white/5 p-5">
+        <div className="w-full lg:w-80 rounded-2xl border border-white/10 bg-white/5 p-5">
           <h2 className="font-semibold text-white">Actions</h2>
 
           <button
