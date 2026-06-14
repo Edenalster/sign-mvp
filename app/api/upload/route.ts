@@ -2,27 +2,12 @@ import { put } from "@vercel/blob";
 
 export async function POST(req: Request) {
   try {
-    console.log("TOKEN EXISTS:", !!process.env.BLOB_WEBHOOK_PUBLIC_KEY);
-
-    const formData = await req.formData();
-
-    const file = formData.get("file") as File | null;
-
-    if (!file) {
-      return Response.json({ error: "No file uploaded" }, { status: 400 });
-    }
-
-    const blob = await put(`${Date.now()}-${file.name}`, file, {
-      access: "public",
-    });
-
     return Response.json({
-      filename: file.name,
-      url: blob.url,
+      BLOB_READ_WRITE_TOKEN: !!process.env.BLOB_READ_WRITE_TOKEN,
+      BLOB_STORE_ID: !!process.env.BLOB_STORE_ID,
+      BLOB_WEBHOOK_PUBLIC_KEY: !!process.env.BLOB_WEBHOOK_PUBLIC_KEY,
     });
   } catch (error) {
-    console.error("UPLOAD ERROR:", error);
-
     return Response.json(
       {
         error: String(error),
