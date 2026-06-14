@@ -32,6 +32,7 @@ export default function SignatureModal({ open, onClose, onSave }: Props) {
         <div className="mt-4 overflow-hidden rounded-xl border">
           <SignatureCanvas
             ref={sigRef}
+            penColor="#1e3a8a"
             canvasProps={{
               width:
                 typeof window !== "undefined"
