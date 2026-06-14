@@ -2,6 +2,8 @@ import { put } from "@vercel/blob";
 
 export async function POST(req: Request) {
   try {
+    console.log("TOKEN EXISTS:", !!process.env.BLOB_READ_WRITE_TOKEN);
+
     const formData = await req.formData();
 
     const file = formData.get("file") as File | null;
