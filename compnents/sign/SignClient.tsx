@@ -244,8 +244,8 @@ export default function SignClient({ documentId }: Props) {
                           style={{
                             left: `${field.xPercent * 100}%`,
                             top: `${field.yPercent * 100}%`,
-                            width: 180,
-                            height: 60,
+                            width: window.innerWidth < 768 ? 80 : 180,
+                            height: window.innerWidth < 768 ? 32 : 60,
                             transform: "translate(-50%, -50%)",
                           }}
                         />
@@ -260,7 +260,7 @@ export default function SignClient({ documentId }: Props) {
                           setSelectedSidebarField(field.id);
                           setIsModalOpen(true);
                         }}
-                        className={`absolute z-50 flex h-[60px] w-[180px] cursor-pointer items-center justify-center border-2 text-xs font-semibold shadow-md transition-all ${
+                        className={`absolute z-50 flex h-[32px] w-[80px] md:h-[60px] md:w-[180px] cursor-pointer items-center justify-center border-2 text-xs font-semibold shadow-md transition-all ${
                           selectedSidebarField === field.id
                             ? "border-amber-500 bg-amber-100 text-amber-800"
                             : "border-emerald-500 bg-emerald-100 text-emerald-800"
@@ -271,7 +271,9 @@ export default function SignClient({ documentId }: Props) {
                           transform: "translate(-50%, -50%)",
                         }}
                       >
-                        SIGN HERE
+                        <span className="text-[10px] md:text-xs">
+                          SIGN HERE
+                        </span>
                       </div>
                     );
                   })}
