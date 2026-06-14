@@ -1,9 +1,22 @@
-export async function POST() {
-  return Response.json({
-    NODE_ENV: process.env.NODE_ENV,
-    HAS_TOKEN: !!process.env.BLOB_READ_WRITE_TOKEN,
-    HAS_STORE_ID: !!process.env.BLOB_STORE_ID,
-    HAS_WEBHOOK: !!process.env.BLOB_WEBHOOK_PUBLIC_KEY,
-    BLOB_KEYS: Object.keys(process.env).filter((key) => key.includes("BLOB")),
-  });
+import { put } from "@vercel/blob";
+
+export async function POST(req: Request) {
+  try {
+    const formData = await req.formData();
+
+    const file = formData.get("file") as File;
+
+    const blob = await put(`${Date.now()}-${file.name}`, file, {
+      access: "public",
+    });
+
+    return Response.json({
+      filename: file.name,
+      url: blob.url,
+    });
+  } catch (error) {
+    console.error("UPLOAD ERROR:", error);
+
+    return Response.json({ error: String(error) }, { status: 500 });
+  }
 }
