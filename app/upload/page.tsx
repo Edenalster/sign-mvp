@@ -4,16 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function UploadPage() {
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
 
   const router = useRouter();
 
   const handleContinue = async () => {
-    if (!file) return;
+    if (files.length === 0) return;
 
     const formData = new FormData();
 
-    formData.append("file", file);
+    formData.append("file", files[0]);
 
     const response = await fetch("/api/upload", {
       method: "POST",
@@ -35,7 +35,7 @@ export default function UploadPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: file.name,
+        title: files[0].name,
         pdfUrl: result.url,
       }),
     });
@@ -67,14 +67,21 @@ export default function UploadPage() {
         <div className="mt-8 rounded-2xl border border-dashed border-white/20 p-10">
           <input
             type="file"
+            multiple
             accept=".pdf"
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
+            onChange={(e) => setFiles(Array.from(e.target.files || []))}
           />
         </div>
 
-        {file && (
+        {files.length > 0 && (
           <div className="mt-6">
-            <p className="text-green-400">{file.name}</p>
+            <div className="space-y-2">
+              {files.map((file) => (
+                <p key={file.name} className="text-green-400">
+                  {file.name}
+                </p>
+              ))}
+            </div>
 
             <button
               onClick={handleContinue}

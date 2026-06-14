@@ -1,18 +1,8 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
-const DocumentSchema = new Schema(
+const EnvelopeSchema = new Schema(
   {
-    envelopeId: {
-      type: String,
-      required: true,
-    },
-
     title: {
-      type: String,
-      required: true,
-    },
-
-    pdfUrl: {
       type: String,
       required: true,
     },
@@ -28,4 +18,4 @@ const DocumentSchema = new Schema(
   }
 );
 
-export const Document = models.Document || model("Document", DocumentSchema);
+export const Envelope = models.Envelope || model("Envelope", EnvelopeSchema);
