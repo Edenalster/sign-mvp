@@ -205,14 +205,6 @@ export default function SignClient({ documentId }: Props) {
                 className="mt-6 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white"
               />
 
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={signerEmail}
-                onChange={(e) => setSignerEmail(e.target.value)}
-                className="mt-3 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white"
-              />
-
               <button
                 disabled={!signerName || !signerEmail || sendingEmail}
                 onClick={sendSignedDocument}
