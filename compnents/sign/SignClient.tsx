@@ -206,7 +206,7 @@ export default function SignClient({ documentId }: Props) {
               />
 
               <button
-                disabled={!signerName || !signerEmail || sendingEmail}
+                disabled={!signerName || sendingEmail}
                 onClick={sendSignedDocument}
                 className="mt-6 w-full rounded-xl bg-blue-600 px-6 py-3 disabled:opacity-50"
               >
