@@ -22,9 +22,7 @@ export async function POST(request: NextRequest) {
       html: `
         <h2>מסמך נחתם</h2>
 
-        <p><strong>Name:</strong> ${body.name}</p>
-
-        <p><strong>Email:</strong> ${body.email}</p>
+        <p><strong> Full Name:</strong> ${body.name}</p>
       `,
       attachments: [
         {
