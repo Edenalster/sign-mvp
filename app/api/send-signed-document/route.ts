@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
     const pdfBuffer = Buffer.from(await pdfResponse.arrayBuffer());
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: "onboarding@resend.dev",
       to: "office@ezlawyer.co.il",
       subject: "מסמך חתום",
@@ -34,15 +34,18 @@ export async function POST(request: NextRequest) {
       ],
     });
 
+    console.log("RESEND RESULT:", result);
+
     return NextResponse.json({
       success: true,
+      result,
     });
   } catch (error) {
-    console.error(error);
-
+    console.error("RESEND ERROR:", error);
     return NextResponse.json(
       {
         success: false,
+        error: String(error),
       },
       {
         status: 500,
