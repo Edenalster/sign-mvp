@@ -185,21 +185,21 @@ export default function SignClient({ documentId }: Props) {
         <div className="w-full max-w-md rounded-3xl border border-green-500/20 bg-green-500/10 p-8 text-center">
           <div className="text-6xl">✅</div>
 
-          <h1 className="mt-6 text-3xl font-bold">Document Signed</h1>
+          <h1 className="mt-6 text-3xl font-bold">מסמך נחתם</h1>
 
           <p className="mt-3 text-slate-400">
-            Please provide your details and send the signed document.
+            בבקשה הזן את שמך כדי לשלוח את המסמך החתום.
           </p>
 
           {emailSent ? (
             <div className="mt-6 rounded-xl bg-green-600 p-4 text-white">
-              Signed document sent successfully.
+              המסמך החתום נשלח בהצלחה! תודה.
             </div>
           ) : (
             <>
               <input
                 type="text"
-                placeholder="Your Name"
+                placeholder="שם מלא"
                 value={signerName}
                 onChange={(e) => setSignerName(e.target.value)}
                 className="mt-6 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white"
@@ -210,7 +210,7 @@ export default function SignClient({ documentId }: Props) {
                 onClick={sendSignedDocument}
                 className="mt-6 w-full rounded-xl bg-blue-600 px-6 py-3 disabled:opacity-50"
               >
-                {sendingEmail ? "Sending..." : "Send Signed Document"}
+                {sendingEmail ? "שולח..." : "שליחה"}
               </button>
             </>
           )}
@@ -342,15 +342,15 @@ export default function SignClient({ documentId }: Props) {
         </div>
 
         <div className="w-full rounded-2xl border border-white/10 bg-white/5 p-5 lg:w-80">
-          <h2 className="font-semibold text-white">Required Signatures</h2>
+          <h2 className="font-semibold text-white">חתימות נדרשות</h2>
 
           <div className="mt-2 text-sm text-slate-400">
-            {signedCount} / {fields.length} Signed
+            {signedCount} / {fields.length} נחתמו
           </div>
 
           <div className="mt-6 space-y-3">
             {fields.length === 0 ? (
-              <p className="text-sm text-slate-400">No signatures required</p>
+              <p className="text-sm text-slate-400">אין צורך בחתימות</p>
             ) : (
               fields.map((field, index) => (
                 <button
@@ -366,9 +366,9 @@ export default function SignClient({ documentId }: Props) {
                   }`}
                 >
                   <div>
-                    <div className="text-white">Signature #{index + 1}</div>
+                    <div className="text-white">חתימה #{index + 1}</div>
                     <div className="text-xs text-slate-400">
-                      Page {field.page}
+                      עמוד {field.page}
                     </div>
                   </div>
 
