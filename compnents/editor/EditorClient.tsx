@@ -157,9 +157,6 @@ export default function EditorClient({ documentId }: Props) {
 
     setPlacingSignature(false);
   };
-  useEffect(() => {
-    console.log("FIELDS", fields);
-  }, [fields]);
 
   useEffect(() => {
     const loadFields = () => {
