@@ -20,11 +20,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json(jsonResponse);
   } catch (error) {
-    console.error(error);
+    console.error("BLOB ERROR:", error);
 
     return NextResponse.json(
       {
-        error: "Upload failed",
+        error: String(error),
       },
       {
         status: 400,
