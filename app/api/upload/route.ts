@@ -5,6 +5,10 @@ export async function POST(req: Request) {
     const formData = await req.formData();
 
     const file = formData.get("file") as File;
+    if (!file) {
+      return Response.json({ error: "No file uploaded" }, { status: 400 });
+    }
+    console.log("UPLOAD SIZE MB:", (file.size / 1024 / 1024).toFixed(2));
 
     const blob = await put(`${Date.now()}-${file.name}`, file, {
       access: "public",

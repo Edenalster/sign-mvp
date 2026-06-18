@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { upload } from "@vercel/blob/client";
 
 export default function UploadPage() {
   const [files, setFiles] = useState<File[]>([]);
@@ -11,19 +12,14 @@ export default function UploadPage() {
   const handleContinue = async () => {
     if (files.length === 0) return;
 
-    const formData = new FormData();
-
-    formData.append("file", files[0]);
-
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
+    const result = await upload(files[0].name, files[0], {
+      access: "public",
+      handleUploadUrl: "/api/blob/upload",
     });
 
-    const result = await response.json();
     console.log("UPLOAD RESULT", result);
 
-    if (!response.ok || !result.url) {
+    if (!result?.url) {
       console.error("Upload failed", result);
       alert("Upload failed");
       return;
