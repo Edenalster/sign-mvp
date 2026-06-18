@@ -12,7 +12,9 @@ export default function UploadPage() {
   const handleContinue = async () => {
     if (files.length === 0) return;
 
-    const result = await upload(files[0].name, files[0], {
+    const uniqueName = `${Date.now()}-${files[0].name}`;
+
+    const result = await upload(uniqueName, files[0], {
       access: "public",
       handleUploadUrl: "/api/blob/upload",
     });
